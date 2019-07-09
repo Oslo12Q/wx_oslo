@@ -64,7 +64,7 @@ def parseTxtMsg(request):
         msg = 'Oslo还在建设中~~~'
     return sendTxtMsg(FromUserName,ToUserName,msg)
 
-
+## 转化格式
 def sendTxtMsg(FromUserName,ToUserName,Content):
     reply_xml = """<xml>
     <ToUserName><![CDATA[%s]]></ToUserName>
@@ -76,28 +76,6 @@ def sendTxtMsg(FromUserName,ToUserName,Content):
     
     return HttpResponse(reply_xml)
 
-
-def getResponseImageTextXml(FromUserName, ToUserName,title,description,picurl,url):  
-    
-    reply_xml = """<xml>
-	<ToUserName><![CDATA[%s]]></ToUserName>
-	<FromUserName><![CDATA[%s]]></FromUserName>
-	<CreateTime>%s</CreateTime>
-	<MsgType><![CDATA[news]]></MsgType>
-	<ArticleCount>1</ArticleCount>
-	<Articles>
-	<item>
-	    <Title><![CDATA[%s]]></Title>
-	    <Description><![CDATA[%s]]></Description>
-	    <PicUrl><![CDATA[%s]]></PicUrl>
-	    <Url><![CDATA[%s]]></Url>
-	</item>
-	</Articles>
-	</xml>"""%(FromUserName,ToUserName,datetime.datetime.now(),title,description,picurl,url)
-    return HttpResponse(reply_xml)
-
-
-
 ##获取access_token
 def get_token():
     url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s' % (
@@ -106,16 +84,7 @@ def get_token():
     access_token = json.loads(result).get('access_token')
     return access_token
 
-def fetchJsApiTicket():
-	access_token = get_token()
-	if access_token is None:
-		return None
-	url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token='+access_token
-	result1 = urllib2.urlopen(url).read()
-        ticket = json.loads(result1).get('ticket')
-	return ticket
-
-
+## 获取所有标签
 def get_tags(request):
     tag_name = u'广东'
     access_token = get_token()
@@ -142,6 +111,7 @@ def create_tag(tags):
                 "name":tags
         }
     }
+    print data
     req.add_header('Content-Type', 'application/json')
     req.add_header('encoding', 'utf-8')
     response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
