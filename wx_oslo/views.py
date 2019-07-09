@@ -54,6 +54,7 @@ def parseTxtMsg(request):
         Content = xml.find('Content').text
         dic = {u'平顶山',u'朝阳',u'海淀'}
         if Content in dic:
+            ts = create_tag(Content)
             msg = '2'
         else:
             msg = 'Oslo还在建设中~~~'
@@ -104,7 +105,6 @@ def get_token():
     AppID, AppSecret)
     result = urllib2.urlopen(url).read()
     access_token = json.loads(result).get('access_token')
-    print access_token
     return access_token
 
 def fetchJsApiTicket():
@@ -116,5 +116,23 @@ def fetchJsApiTicket():
         ticket = json.loads(result1).get('ticket')
 	return ticket
 
-tok = fetchJsApiTicket()
-print tok
+
+def create_tag(tags):
+    access_token = get_token()
+    url = 'https://api.weixin.qq.com/cgi-bin/tags/create?access_token='+access_token
+    req = urllib2.Request(url)
+    data = {
+        "tag":{
+                "name":tags
+        }
+    }
+    req.add_header('Content-Type', 'application/json')
+    req.add_header('encoding', 'utf-8')
+    response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
+    result = response.read()
+    print result
+    return result
+
+
+
+
