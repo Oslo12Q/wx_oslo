@@ -49,7 +49,9 @@ def parseTxtMsg(request):
     FromUserName = xml.find('FromUserName').text
     CreateTime =xml.find('CreateTime').text
     MsgType = xml.find('MsgType').text
-    print MsgType
+    openid = xml.find('openid').text
+
+    print openid
     if MsgType == 'text':
         Content = xml.find('Content').text
         dic = {u'平顶山',u'朝阳',u'海淀'}
@@ -111,11 +113,9 @@ def create_tag(request):
                 "name":'中国'
         }
     }
-    d = json.dumps(data,ensure_ascii=False).encode('utf8')
-    print d
     req = urllib2.Request(url)
     req.add_header('Content-Type', 'application/json')
-    #req.add_header('encoding', 'utf-8')
+    req.add_header('encoding', 'utf-8')
     response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
     result = response.read()
     result = json.loads(result)
