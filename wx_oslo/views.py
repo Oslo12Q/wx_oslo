@@ -117,11 +117,16 @@ def fetchJsApiTicket():
 
 
 def get_tags(request):
+    tag_name = '广东'
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
-    jso = json.loads(result)
-    print jso
+    jso = json.loads(result).get('tags')
+    for i in jso:
+        if tag_name in i.get('name'):
+            print '我以存在'
+        else:
+            print '我不在'
     return HttpResponse("Hello World")
 
 
