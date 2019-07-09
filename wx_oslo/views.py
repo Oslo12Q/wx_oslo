@@ -88,7 +88,7 @@ def get_token():
 
 ## 获取所有标签
 def get_tags(request):
-    tag_name = u'广东'
+    tag_name = u'星标组'
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
@@ -96,6 +96,8 @@ def get_tags(request):
     print jso
     for i in jso:
         if tag_name in i.get('name'):
+            tag_id = i.get('id')
+            print tag_id
             print '我以存在'
         else:
             print '我不在'
@@ -122,6 +124,31 @@ def create_tag(request):
     print result
     return HttpResponse("Hello World")
 
+# 关注的用户打标签
+# 参数 openid / tagid
+def mob_create_tag():
+    access_token = get_token()
+    url = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token='+access_token
+    data = {   
+        "openid_list" : ["oBH7w54tDRf6rc9B_0-76I9BG8s0"],   
+        "tagid" : '2'
+    }
+
+
+# 获取用户是否存在标签
+def mob_user_tag(request):
+    access_token = get_token()
+    url = 'https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token='+access_token
+    data = {
+        "openid":"oBH7w54tDRf6rc9B_0-76I9BG8s0"
+    }
+    req = urllib2.Request(url)
+    req.add_header('Content-Type', 'application/json')
+    req.add_header('encoding', 'utf-8')
+    response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
+    result = response.read()
+    print result
+    return HttpResponse("Hello World")
 
 
 
