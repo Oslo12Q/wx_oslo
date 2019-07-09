@@ -117,7 +117,7 @@ def fetchJsApiTicket():
 
 
 def get_tags(request):
-    tag_name = '广东'
+    tag_name = u'广东'
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
