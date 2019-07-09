@@ -91,6 +91,7 @@ def get_tags(request):
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
     jso = json.loads(result).get('tags')
+    print jso
     for i in jso:
         if tag_name in i.get('name'):
             print '我以存在'
@@ -111,10 +112,12 @@ def create_tag(tags):
                 "name":tags
         }
     }
-    print data
+    d = json.dumps(data,ensure_ascii=False).encode('utf8')
+    print d
     req.add_header('Content-Type', 'application/json')
     req.add_header('encoding', 'utf-8')
     response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
+    print response
     result = response.read()
     print result
     return result
