@@ -52,7 +52,8 @@ def parseTxtMsg(request):
     print MsgType
     if MsgType == 'text':
         Content = xml.find('Content').text
-        if Content in ['平顶山','朝阳','海淀']:
+        dic = {u'平顶山',u'朝阳',u'海淀'}
+        if Content in dic:
             msg = '2'
         else:
             msg = 'Oslo还在建设中~~~'
