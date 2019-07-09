@@ -55,7 +55,9 @@ def parseTxtMsg(request):
         print Content
         msg = '2'
     elif MsgType == 'event':
-        msg = '5'
+        msg = '欢迎关注Oslo测试号,目前还在建设中~~~~'
+    else:
+        msg = 'Oslo还在建设中~~~'
     return sendTxtMsg(FromUserName,ToUserName,msg)
 
 
