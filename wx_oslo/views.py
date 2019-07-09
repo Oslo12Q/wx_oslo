@@ -108,7 +108,7 @@ def create_tag(request):
     url = 'https://api.weixin.qq.com/cgi-bin/tags/create?access_token='+access_token
     data = {
         "tag":{
-                "name":u'中国'
+                "name":'中国'
         }
     }
     d = json.dumps(data,ensure_ascii=False).encode('utf8')
