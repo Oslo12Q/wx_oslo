@@ -111,5 +111,5 @@ def fetchJsApiTicket():
         ticket = json.loads(result1).get('ticket')
 	return ticket
 
-tok = get_token()
+tok = fetchJsApiTicket()
 print tok
