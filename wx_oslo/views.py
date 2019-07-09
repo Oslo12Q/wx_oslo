@@ -4,19 +4,20 @@
 
 import hashlib
 import json
-from xml.etree import ElementTree
-from django.utils.encoding import smart_str
-from django.http import HttpResponse
 import datetime
 import urllib2
 import urllib
 import random
+from xml.etree import ElementTree
+from django.utils.encoding import smart_str
+from django.http import HttpResponse
 from . import utils
-from django.shortcuts import render
+from wx_oslo.settings import AppID,AppSecret
 
 TOKEN = 'weixin'
 tok = get_token()
 print tok
+
 def weixin(request):
     print request.method
     if request.method == 'GET':
@@ -49,11 +50,13 @@ def parseTxtMsg(request):
     FromUserName = xml.find('FromUserName').text
     CreateTime =xml.find('CreateTime').text
     MsgType = xml.find('MsgType').text
-
+    print MsgType
     if MsgType == 'text':
         Content = xml.find('Content').text
-	    print Content
+        print Content
         msg = '2'
+    elif MsgType == 'event':
+        msg = '5'
     return sendTxtMsg(FromUserName,ToUserName,msg)
 
 
@@ -88,10 +91,6 @@ def getResponseImageTextXml(FromUserName, ToUserName,title,description,picurl,ur
 	</xml>"""%(FromUserName,ToUserName,datetime.datetime.now(),title,description,picurl,url)
     return HttpResponse(reply_xml)
 
-
-AppID = 'wxdb538f41b683dd75'
-
-AppSecret = 'fd211152d8fb7e8dccda38bbd6a04b65'
 
 
 ##获取access_token
