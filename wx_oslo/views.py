@@ -100,7 +100,6 @@ def getResponseImageTextXml(FromUserName, ToUserName,title,description,picurl,ur
 
 ##获取access_token
 def get_token():
-
     url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s' % (
     AppID, AppSecret)
     result = urllib2.urlopen(url).read()
@@ -117,6 +116,16 @@ def fetchJsApiTicket():
 	return ticket
 
 
+def get_tags(request):
+    access_token = get_token()
+    url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
+    result = urllib2.urlopen(url).read()
+    jso = json.loads(result)
+    print jso
+    return HttpResponse("Hello World")
+
+
+# 创建标签
 def create_tag(tags):
     access_token = get_token()
     print access_token
