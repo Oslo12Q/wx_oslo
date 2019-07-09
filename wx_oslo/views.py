@@ -49,7 +49,7 @@ def parseTxtMsg(request):
     FromUserName = xml.find('FromUserName').text
     CreateTime =xml.find('CreateTime').text
     MsgType = xml.find('MsgType').text
-    openid = request.POST.get('openid')
+    openid = request.GET.get('openid') # 获取 openid
 
     print openid
     if MsgType == 'text':
