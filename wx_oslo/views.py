@@ -117,7 +117,7 @@ def fetchJsApiTicket():
 
 
 def get_tags(request):
-    tag_name = u'星标组'
+    tag_name = u'广东'
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
@@ -127,6 +127,7 @@ def get_tags(request):
             print '我以存在'
         else:
             print '我不在'
+            tg = create_tag(tag_name)
     return HttpResponse("Hello World")
 
 
