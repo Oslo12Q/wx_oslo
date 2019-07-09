@@ -119,6 +119,7 @@ def fetchJsApiTicket():
 
 def create_tag(tags):
     access_token = get_token()
+    print access_token
     url = 'https://api.weixin.qq.com/cgi-bin/tags/create?access_token='+access_token
     req = urllib2.Request(url)
     data = {
