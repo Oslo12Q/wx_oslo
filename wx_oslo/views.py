@@ -15,7 +15,8 @@ from . import utils
 from django.shortcuts import render
 
 TOKEN = 'weixin'
-
+tok = get_token()
+print tok
 def weixin(request):
     print request.method
     if request.method == 'GET':
@@ -50,43 +51,9 @@ def parseTxtMsg(request):
     MsgType = xml.find('MsgType').text
 
     if MsgType == 'text':
-	Content = xml.find('Content').text
-	print 	Content
- 	if Content == '1':
-            number_of_records = KeyHua.objects.count()
-            random_index = int(random.random()*number_of_records)+1
-            random_paint = KeyHua.objects.filter(id = random_index)
-            for i in random_paint:
-                keys = i.key
-       	    msg = keys
-        elif Content == '2':
-            msg = datetime.datetime.now()
-        elif Content == '查看违章':
-            msg = '点击<a href="http://oslo.obstinate.cn/dev/index/">违章查询</a>'
-        else:
-            msg = '欢迎关注刘志强的个人微信公众号！\n本公众号正在建设中。\n输入1听笑话。\n输入2查看当前时间,任意输入将重新收到本消息。\n功能如下：\n1.<a href="http://oslo.obstinate.cn/dev/index/">查询医院疾病等信息</a>。\n2.<a href="http://m.weizhang8.cn">违章查询</a>。\n3.<a href="http://oslo.obstinate.cn/oslo/">ocr识别正在研发中</a>'
-
-    elif MsgType == 'image':
-	    msg = '您发的图片我们已经收到。'
-    elif MsgType == 'voice':
-	    msg = '感谢您的留言，我们会尽快处理。'
-    elif MsgType == 'video':
-	    msg = '感谢您的留言，我们会尽快处理。'
-    elif MsgType == 'shortvideo':
-	    msg = '感谢您的留言，我们会尽快处理。'
-    elif MsgType == 'location':
-	    msg = '您当前尚未绑定设备哦，如需绑定，点击<a href="http://dev.yijiayinong.com/ceshi/">扫一扫</a>，对准设备上的二维码即可！'
-    elif MsgType == 'link':
-	    msg = '感谢您的留言，我们会尽快处理。'
-    
-    elif MsgType == 'event':
-	    msgContent = xml.find('Event').text
-	    if msgContent == 'subscribe':
-	        msg = '欢迎关注刘志强的个人微信公众号！\n本公众号正在建设中。\n输入1听笑话。\n输入2查看当前时间,任意输入将重新收到本消息。\n功能如下：\n1.<a href="http://oslo.obstinate.cn/dev/index/">查询医院疾病等信息</a>。\n2.<a href="http://m.weizhang8.cn">违章查询</a>。\n3.<a href="http://oslo.obstinate.cn/oslo/">ocr识别正在研发中</a>'
-
-	    if msgContent == 'unsubscribe':
-	        msg = ''
-	    
+        Content = xml.find('Content').text
+	    print Content
+        msg = '2'
     return sendTxtMsg(FromUserName,ToUserName,msg)
 
 
@@ -122,9 +89,9 @@ def getResponseImageTextXml(FromUserName, ToUserName,title,description,picurl,ur
     return HttpResponse(reply_xml)
 
 
-AppID = 'wxeef13872d0ba56f6'
+AppID = 'wxdb538f41b683dd75'
 
-AppSecret = '0573d4b276a55257f8ac6e6a69df1385'
+AppSecret = 'fd211152d8fb7e8dccda38bbd6a04b65'
 
 
 ##获取access_token
@@ -145,91 +112,3 @@ def fetchJsApiTicket():
 	result1 = urllib2.urlopen(url).read()
         ticket = json.loads(result1).get('ticket')
 	return ticket
-
-def createWXConfig(jsApiList):
-	nonceStr = utils.nonceStr()
-	jsapi_ticket = fetchJsApiTicket()
-	timestamp = str(utils.now())
-	url = config.url
-	d = {
-		'noncestr': nonceStr,
-		'jsapi_ticket': jsapi_ticket,
-		'timestamp': timestamp,
-		'url': url
-	}
-	signature = utils.generateSHA1Sign(d)
-	dd = {
-		'debug': False,
-		'appId': AppID,
-		'timestamp': timestamp,
-		'nonceStr': nonceStr,
-		'signature': signature,
-		'jsApiList': jsApiList
-	}
-	return dd
-
-def weixinJsapi(request):
-
-    jsApiList = request.GET.get('jsApiList', None)
-    data = createWXConfig(jsApiList)
-    return Response(data)
-    
-    
-
-def create1WXConfig(jsApiList):
-        nonceStr = utils.nonceStr()
-        jsapi_ticket = fetchJsApiTicket()
-        timestamp = str(utils.now())
-        url = config.url1
-        d = {
-                'noncestr': nonceStr,
-                'jsapi_ticket': jsapi_ticket,
-                'timestamp': timestamp,
-                'url': url
-        }
-        signature = utils.generateSHA1Sign(d)
-        dd = {
-                'debug': False,
-                'appId': AppID,
-                'timestamp': timestamp,
-                'nonceStr': nonceStr,
-                'signature': signature,
-                'jsApiList': jsApiList
-        }
-        return dd
-
-def weixin1Jsapi(request):
-
-    jsApiList = request.GET.get('jsApiList', None)
-    data = create1WXConfig(jsApiList)
-    return Response(data)
-
-
-##创建自定义菜单	
-def createMenu(request):
-    url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=%s" % get_token()
-    print url
-    data = {
-        "button": [
-            {
-                "type": "view",
-                "name": "查询",
-                "url": "http://oslo.obstinate.cn/dev/index/"
-            },
-            {
-                "type": "view",
-                "name": "history",
-                "url": "https://mp.weixin.qq.com/mp/profile_ext?action=home&__biz=MzAwMzk1OTQzMg==&scene=124#wechat_redirect"
-            }
-        ]
-    }
-
-    req = urllib2.Request(url)
-    req.add_header('Content-Type', 'application/json')
-    req.add_header('encoding', 'utf-8')
-    response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
-    result = response.read()
-    return HttpResponse(result)
-
-
-
