@@ -15,8 +15,7 @@ from . import utils
 from wx_oslo.settings import AppID,AppSecret
 
 TOKEN = 'weixin'
-tok = get_token()
-print tok
+
 
 def weixin(request):
     print request.method
@@ -111,3 +110,6 @@ def fetchJsApiTicket():
 	result1 = urllib2.urlopen(url).read()
         ticket = json.loads(result1).get('ticket')
 	return ticket
+
+tok = get_token()
+print tok
