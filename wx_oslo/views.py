@@ -102,25 +102,25 @@ def get_tags(request):
 
 
 # 创建标签
-def create_tag(tags):
+def create_tag(request):
     access_token = get_token()
     print access_token
     url = 'https://api.weixin.qq.com/cgi-bin/tags/create?access_token='+access_token
     data = {
         "tag":{
-                "name":tags
+                "name":u'中国'
         }
     }
     d = json.dumps(data,ensure_ascii=False).encode('utf8')
     print d
     req = urllib2.Request(url)
     req.add_header('Content-Type', 'application/json')
-    req.add_header('encoding', 'utf-8')
+    #req.add_header('encoding', 'utf-8')
     response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
     result = response.read()
     result = json.loads(result)
     print result
-    return result
+   return HttpResponse("Hello World")
 
 
 
