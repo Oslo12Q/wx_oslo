@@ -69,13 +69,13 @@ def parseTxtMsg(request):
                 er = mob_create_tag(openid,t_id)
             else:
                 er = mob_create_tag(openid,ts)
-            msg = '您的标签名称小的已经收到，并创建了分组~~~~'
+            msg = u'您的标签名称小的已经收到，并创建了分组~~~~'
         else:
-            msg = 'Oslo还在建设中~~~'
+            msg = u'Oslo还在建设中~~~'
     elif MsgType == 'event':
-        msg = '欢迎关注Oslo测试号,目前还在建设中~~~~'
+        msg = u'欢迎关注Oslo测试号,目前还在建设中~~~~'
     else:
-        msg = 'Oslo还在建设中~~~'
+        msg = u'Oslo还在建设中~~~'
     return sendTxtMsg(FromUserName,ToUserName,msg)
 
 ## 转化格式

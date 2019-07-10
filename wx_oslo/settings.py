@@ -77,7 +77,8 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 # wx 需要导入变量
-AppID = os.getenv('AppID')
-AppSecret = os.getenv('AppSecret')
+AppID = 'wx60f616f2858dcb39'#os.getenv('AppID')
+AppSecret = 'e923ee90f02d563ab36611331209c541'#os.getenv('AppSecret')
