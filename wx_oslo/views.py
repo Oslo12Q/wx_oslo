@@ -100,7 +100,7 @@ def get_token():
 # 参数 tag_name 
 # return / tag_id
 def get_tags(request):
-    tag_name = '朝阳'
+    tag_name = '朝阳ccccc'
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
