@@ -59,6 +59,7 @@ def parseTxtMsg(request):
         dic = {u'平顶山',u'朝阳',u'海淀'}
         if Content in dic:
             ts = create_tag(Content)
+            er = mob_create_tag(openid,ts)
             msg = '2'
         else:
             msg = 'Oslo还在建设中~~~'
@@ -88,54 +89,61 @@ def get_token():
     access_token = json.loads(result).get('access_token')
     return access_token
 
-## 获取所有标签
-def get_tags(request):
-    tag_name = u'星标组'
+
+## 查询此标签是否存在
+# 参数 tag_name 
+# return / tag_id
+def get_tags(tag_name):
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
     jso = json.loads(result).get('tags')
-    print jso
     for i in jso:
         if tag_name in i.get('name'):
             tag_id = i.get('id')
-            print tag_id # 获取分组id
-            print '我以存在'
+            print '我已存在'
+            return tag_id 
         else:
             print '我不在'
-            tg = create_tag(tag_name)
-    return HttpResponse("Hello World")
-
+            tag_id = create_tag(tag_name)
+            return tag_id
 
 # 创建标签
 # 参数 tag_name 
 # return / tag_id
-def create_tag(request):
+def create_tag(tag_name):
     access_token = get_token()
     print access_token
     url = 'https://api.weixin.qq.com/cgi-bin/tags/create?access_token='+access_token
     data = {
         "tag": {
-            "name": "北京aa"
+            "name": tag_name
         }
     }
     req = urllib2.Request(url)
     req.add_header('Content-Type', 'application/json')
     response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
     result = response.read() 
-    result = json.loads(result).get('tag').get('id')
-    print result
-    return HttpResponse("Hello World")
+    tag_id = json.loads(result).get('tag').get('id')
+    return tag_id
+
 
 # 关注的用户打标签
 # 参数 openid / tagid
-def mob_create_tag():
+def mob_create_tag(openid,tagid):
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/members/batchtagging?access_token='+access_token
     data = {   
-        "openid_list" : ["oBH7w54tDRf6rc9B_0-76I9BG8s0"],   
-        "tagid" : '2'
+        "openid_list" : [openid],   
+        "tagid" : tagid
     }
+    req = urllib2.Request(url)
+    req.add_header('Content-Type', 'application/json')
+    response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
+    result = response.read()
+    
+    print result
+    return None
     
 
 # 获取用户是否存在标签
