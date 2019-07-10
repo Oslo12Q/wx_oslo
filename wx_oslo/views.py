@@ -62,7 +62,7 @@ def parseTxtMsg(request):
                 er = mob_create_tag(openid,t_id)
             else:
                 er = mob_create_tag(openid,ts)
-            msg = '2'
+            msg = '您的标签名称小的已经收到，并创建了分组~~~~'
         else:
             msg = 'Oslo还在建设中~~~'
     elif MsgType == 'event':
@@ -97,7 +97,6 @@ def get_token():
 # return / tag_id
 def get_tags(tag_name):
     access_token = get_token()
-    print access_token
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
     jso = json.loads(result).get('tags')
@@ -141,22 +140,6 @@ def mob_create_tag(openid,tagid):
     result = response.read()
     return 'ok'
     
-
-# 获取用户是否存在标签
-def del_tags(request):
-    access_token = get_token()
-    id = request.GET.get('id')
-    url = 'https://api.weixin.qq.com/cgi-bin/tags/delete?access_token='+access_token
-    data = {
-        "tag":{
-            "id" : id
-        }
-    }
-    req = urllib2.Request(url)
-    req.add_header('Content-Type', 'application/json')
-    response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
-    result = response.read()
-    return HttpResponse("Hello World")
 
 
 
