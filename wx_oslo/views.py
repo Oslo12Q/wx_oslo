@@ -106,8 +106,11 @@ def get_tags(tag_name):
     result = urllib2.urlopen(url).read()
     for i in jso:
         if tag_name in i.get('name'):
+            print '我在'
             tag_id = i.get('id')
+            print tag_id
             return tag_id 
+    print '566498498484'
     return None
         
 
