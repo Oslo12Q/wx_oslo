@@ -1,3 +1,5 @@
+#!/usr/bin/python
+#-*- coding: UTF-8 -*- 
 
 import os
 
@@ -76,6 +78,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# wx
-AppID = 'wxdb538f41b683dd75'
-AppSecret = 'fd211152d8fb7e8dccda38bbd6a04b65'
+# wx 需要导入变量
+AppID = os.getenv('AppID')
+AppSecret = os.getenv('AppSecret')

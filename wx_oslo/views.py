@@ -1,5 +1,11 @@
 #!/usr/bin/python
 #-*- coding: UTF-8 -*- 
+
+
+# @author Oslo
+# @version 2019-07-10.
+
+
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
