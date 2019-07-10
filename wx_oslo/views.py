@@ -104,8 +104,8 @@ def get_tags(request):
     for i in jso:
         if tag_name in i.get('name'):
             tag_id = i.get('id')
-            return tag_id 
-    return None
+            #return tag_id 
+    return HttpResponse("Hello World")
         
 # 创建标签
 # 参数 tag_name 
