@@ -4,6 +4,6 @@ from .views import *
 
 urlpatterns = [
     url(r'^$',weixin),
-    url(r'^get_tags/',get_tags),
+    url(r'^del_tags/',del_tags),
     url(r'^admin/', include(admin.site.urls)),
 ]

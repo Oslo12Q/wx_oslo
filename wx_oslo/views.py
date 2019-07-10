@@ -13,7 +13,6 @@ import random
 from xml.etree import ElementTree
 from django.utils.encoding import smart_str
 from django.http import HttpResponse
-from . import utils
 from wx_oslo.settings import AppID,AppSecret
 
 TOKEN = 'weixin'
@@ -53,15 +52,12 @@ def parseTxtMsg(request):
     MsgType = xml.find('MsgType').text
     openid = request.GET.get('openid') # 获取 openid
 
-    print openid
     if MsgType == 'text':
         Content = xml.find('Content').text
         dic = {u'平顶山',u'朝阳',u'海淀'}
         if Content in dic:
             ts = get_tags(Content)
-            print ts
             if ts is None:
-                print '1'
                 t_id = create_tag(Content)
                 er = mob_create_tag(openid,t_id)
             else:
@@ -106,14 +102,10 @@ def get_tags(tag_name):
     jso = json.loads(result).get('tags')
     for i in jso:
         if tag_name in i.get('name'):
-            print '我在'
             tag_id = i.get('id')
-            print tag_id
             return tag_id 
-    print '5644845454'
     return None
         
-
 # 创建标签
 # 参数 tag_name 
 # return / tag_id
@@ -146,24 +138,23 @@ def mob_create_tag(openid,tagid):
     req.add_header('Content-Type', 'application/json')
     response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
     result = response.read()
-    
-    print result
-    return None
+    return 'ok'
     
 
 # 获取用户是否存在标签
-def mob_user_tag(request):
+def del_tags(request):
     access_token = get_token()
-    url = 'https://api.weixin.qq.com/cgi-bin/tags/getidlist?access_token='+access_token
+    id = request.GET.get('id')
+    url = 'https://api.weixin.qq.com/cgi-bin/tags/delete?access_token='+access_token
     data = {
-        "openid":"oBH7w54tDRf6rc9B_0-76I9BG8s0"
+        "tag":{
+            "id" : id
+        }
     }
     req = urllib2.Request(url)
     req.add_header('Content-Type', 'application/json')
-    req.add_header('encoding', 'utf-8')
     response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
     result = response.read()
-    print result
     return HttpResponse("Hello World")
 
 
