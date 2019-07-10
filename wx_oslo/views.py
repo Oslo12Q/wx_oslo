@@ -97,7 +97,7 @@ def get_tags(request):
     for i in jso:
         if tag_name in i.get('name'):
             tag_id = i.get('id')
-            print tag_id
+            print tag_id # 获取分组id
             print '我以存在'
         else:
             print '我不在'
@@ -106,20 +106,19 @@ def get_tags(request):
 
 
 # 创建标签
+# 参数 tag_name 
+# return / tag_id
 def create_tag(request):
     access_token = get_token()
     print access_token
     url = 'https://api.weixin.qq.com/cgi-bin/tags/create?access_token='+access_token
-    data = {
-        "tag":{
-                "name":'中国'
-        }
-    }
+    data = {"tag": {"name": "北京"}}
     req = urllib2.Request(url)
     req.add_header('Content-Type', 'application/json')
-    req.add_header('encoding', 'utf-8')
+    #req.add_header('encoding', 'utf-8')
     response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
     result = response.read()
+    print result
     result = json.loads(result)
     print result
     return HttpResponse("Hello World")
@@ -133,7 +132,7 @@ def mob_create_tag():
         "openid_list" : ["oBH7w54tDRf6rc9B_0-76I9BG8s0"],   
         "tagid" : '2'
     }
-
+    
 
 # 获取用户是否存在标签
 def mob_user_tag(request):
