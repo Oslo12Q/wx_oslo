@@ -100,6 +100,9 @@ def get_tags(tag_name):
     result = urllib2.urlopen(url).read()
     jso = json.loads(result).get('tags')
     type(jso)
+    import pdb
+    pdb.set_trace()
+    
     print jso
     for i in jso:
         if tag_name in i.get('name'):
