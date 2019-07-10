@@ -2,7 +2,7 @@
 #-*- coding: UTF-8 -*- 
 import sys
 reload(sys)
-sys.setdefaultencoding('utf8)
+sys.setdefaultencoding('utf8')
 
 import hashlib
 import json
