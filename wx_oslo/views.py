@@ -1,5 +1,11 @@
 #!/usr/bin/python
 #-*- coding: UTF-8 -*- 
+
+
+# @author Oslo
+# @version 2019-07-10.
+
+
 import sys
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -54,6 +60,7 @@ def parseTxtMsg(request):
 
     if MsgType == 'text':
         Content = xml.find('Content').text
+        print Content
         dic = {u'平顶山',u'朝阳',u'海淀'}
         if Content in dic:
             ts = get_tags(Content)
@@ -62,7 +69,7 @@ def parseTxtMsg(request):
                 er = mob_create_tag(openid,t_id)
             else:
                 er = mob_create_tag(openid,ts)
-            msg = '2'
+            msg = '您的标签名称小的已经收到，并创建了分组~~~~'
         else:
             msg = 'Oslo还在建设中~~~'
     elif MsgType == 'event':
@@ -95,18 +102,16 @@ def get_token():
 ## 查询此标签是否存在
 # 参数 tag_name 
 # return / tag_id
-def get_tags(request):
-    tag_name = 'so'
+def get_tags(tag_name):
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
     jso = json.loads(result).get('tags')
-    print jso
     for i in jso:
         if tag_name in i.get('name'):
             tag_id = i.get('id')
-            #return tag_id 
-    return HttpResponse("Hello World")
+            return tag_id 
+    return None
         
 # 创建标签
 # 参数 tag_name 
@@ -142,22 +147,6 @@ def mob_create_tag(openid,tagid):
     result = response.read()
     return 'ok'
     
-
-# 获取用户是否存在标签
-def del_tags(request):
-    access_token = get_token()
-    id = request.GET.get('id')
-    url = 'https://api.weixin.qq.com/cgi-bin/tags/delete?access_token='+access_token
-    data = {
-        "tag":{
-            "id" : id
-        }
-    }
-    req = urllib2.Request(url)
-    req.add_header('Content-Type', 'application/json')
-    response = urllib2.urlopen(req, json.dumps(data,ensure_ascii=False).encode('utf8'))
-    result = response.read()
-    return HttpResponse("Hello World")
 
 
 
