@@ -99,6 +99,7 @@ def get_tags(tag_name):
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
     jso = json.loads(result).get('tags')
+    type(jso)
     print jso
     for i in jso:
         if tag_name in i.get('name'):
