@@ -58,8 +58,13 @@ def parseTxtMsg(request):
         Content = xml.find('Content').text
         dic = {u'平顶山',u'朝阳',u'海淀'}
         if Content in dic:
-            ts = get_tags(Content)
-            er = mob_create_tag(openid,ts)
+            t_id = get_tags(Content)
+            if ts not None:
+                er = mob_create_tag(openid,ts)
+            else:
+                print '1'
+                t_id = create_tag(Content)
+                er = mob_create_tag(openid,ts)
             msg = '2'
         else:
             msg = 'Oslo还在建设中~~~'
@@ -94,25 +99,15 @@ def get_token():
 # 参数 tag_name 
 # return / tag_id
 def get_tags(tag_name):
-    print tag_name
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
-    jso = json.loads(result).get('tags')
-    type(jso)
-    import pdb
-    pdb.set_trace()
-    
-    print jso
     for i in jso:
         if tag_name in i.get('name'):
             tag_id = i.get('id')
-            print '我已存在'
             return tag_id 
-        else:
-            print '我不在'
-            tag_id = create_tag(tag_name)
-            return tag_id
+    return None
+        
 
 # 创建标签
 # 参数 tag_name 
