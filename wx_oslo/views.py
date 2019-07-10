@@ -59,12 +59,12 @@ def parseTxtMsg(request):
         dic = {u'平顶山',u'朝阳',u'海淀'}
         if Content in dic:
             ts = get_tags(Content)
-            if ts not None:
-                er = mob_create_tag(openid,ts)
-            else:
+            if ts is None:
                 print '1'
                 t_id = create_tag(Content)
                 er = mob_create_tag(openid,t_id)
+            else:
+                er = mob_create_tag(openid,ts)
             msg = '2'
         else:
             msg = 'Oslo还在建设中~~~'
