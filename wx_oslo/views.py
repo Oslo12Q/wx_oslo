@@ -19,7 +19,7 @@ TOKEN = 'weixin'
 
 
 def weixin(request):
-    print request.method
+    #print request.method
     if request.method == 'GET':
         return checkSignature(request)
     if request.method == 'POST':
@@ -97,6 +97,7 @@ def get_token():
 # return / tag_id
 def get_tags(tag_name):
     access_token = get_token()
+    print access_token
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
     jso = json.loads(result).get('tags')
