@@ -59,6 +59,7 @@ def parseTxtMsg(request):
         dic = {u'平顶山',u'朝阳',u'海淀'}
         if Content in dic:
             ts = get_tags(Content)
+            print ts
             if ts is None:
                 print '1'
                 t_id = create_tag(Content)
@@ -99,6 +100,7 @@ def get_token():
 # 参数 tag_name 
 # return / tag_id
 def get_tags(tag_name):
+    print tag_name
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
