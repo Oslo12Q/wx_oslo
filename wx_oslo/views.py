@@ -99,8 +99,7 @@ def get_token():
 ## 查询此标签是否存在
 # 参数 tag_name 
 # return / tag_id
-def get_tags(request):
-    tag_name = '朝阳ccccc'
+def get_tags(tag_name):
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
@@ -110,9 +109,9 @@ def get_tags(request):
             print '我在'
             tag_id = i.get('id')
             print tag_id
-            #return tag_id 
+            return tag_id 
     print '5644845454'
-    return HttpResponse("Hello World")
+    return None
         
 
 # 创建标签
