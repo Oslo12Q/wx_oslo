@@ -94,10 +94,12 @@ def get_token():
 # 参数 tag_name 
 # return / tag_id
 def get_tags(tag_name):
+    print tag_name
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
     jso = json.loads(result).get('tags')
+    print jso
     for i in jso:
         if tag_name in i.get('name'):
             tag_id = i.get('id')
