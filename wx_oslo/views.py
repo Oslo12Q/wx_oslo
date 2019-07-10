@@ -58,7 +58,7 @@ def parseTxtMsg(request):
         Content = xml.find('Content').text
         dic = {u'平顶山',u'朝阳',u'海淀'}
         if Content in dic:
-            ts = create_tag(Content)
+            ts = get_tags(Content)
             er = mob_create_tag(openid,ts)
             msg = '2'
         else:
@@ -115,7 +115,6 @@ def get_tags(tag_name):
 # return / tag_id
 def create_tag(tag_name):
     access_token = get_token()
-    print access_token
     url = 'https://api.weixin.qq.com/cgi-bin/tags/create?access_token='+access_token
     data = {
         "tag": {
