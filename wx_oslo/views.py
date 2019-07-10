@@ -104,7 +104,9 @@ def get_tags(request):
     access_token = get_token()
     url = 'https://api.weixin.qq.com/cgi-bin/tags/get?access_token='+access_token
     result = urllib2.urlopen(url).read()
+    print result
     jso = json.loads(result).get('tag')
+    print jso
     for i in jso:
         if tag_name in i.get('name'):
             print '我在'
