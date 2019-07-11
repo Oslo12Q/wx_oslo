@@ -59,6 +59,9 @@ def parseTxtMsg(request):
     openid = request.GET.get('openid') # 获取 openid
     print '57774444444444444444'
     if MsgType == 'text':
+        print '44444444444444444444444'
+        import pdb
+        pdb.set_trace()
         Content = xml.find('Content').text
         print Content
         dic = {u'平顶山',u'朝阳',u'海淀'}
