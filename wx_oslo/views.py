@@ -53,6 +53,7 @@ import traceback
 def parseTxtMsg(request):
     try:
         xmlstr = smart_str(request.body)
+        print xmlstr
         xml =ElementTree.fromstring(xmlstr)
         ToUserName = xml.find('ToUserName').text
         FromUserName = xml.find('FromUserName').text
