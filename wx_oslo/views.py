@@ -48,39 +48,42 @@ def checkSignature(request):
     else:
         return HttpResponse("Hello World")
 
+import logging
+import traceback
 def parseTxtMsg(request):
-
-    xmlstr = smart_str(request.body)
-    xml =ElementTree.fromstring(xmlstr)
-    ToUserName = xml.find('ToUserName').text
-    FromUserName = xml.find('FromUserName').text
-    CreateTime =xml.find('CreateTime').text
-    MsgType = xml.find('MsgType').text
-    openid = request.GET.get('openid') # 获取 openid
-    print '57774444444444444444'
-    if MsgType == 'text':
-        print '44444444444444444444444'
-        import pdb
-        pdb.set_trace()
-        Content = xml.find('Content').text
-        print Content
-        dic = {u'平顶山',u'朝阳',u'海淀'}
-        if Content in dic:
-            ts = get_tags(Content)
-            if ts is None:
-                t_id = create_tag(Content)
-                er = mob_create_tag(openid,t_id)
+    try:
+        xmlstr = smart_str(request.body)
+        xml =ElementTree.fromstring(xmlstr)
+        ToUserName = xml.find('ToUserName').text
+        FromUserName = xml.find('FromUserName').text
+        CreateTime =xml.find('CreateTime').text
+        MsgType = xml.find('MsgType').text
+        openid = request.GET.get('openid') # 获取 openid
+        print '57774444444444444444'
+        if MsgType == 'text':
+            print '44444444444444444444444'
+            Content = xml.find('Content').text
+            print Content
+            dic = {u'平顶山',u'朝阳',u'海淀'}
+            if Content in dic:
+                ts = get_tags(Content)
+                if ts is None:
+                    t_id = create_tag(Content)
+                    er = mob_create_tag(openid,t_id)
+                else:
+                    er = mob_create_tag(openid,ts)
+                msg = '您的标签名称小的已经收到，并创建了分组~~~~'
             else:
-                er = mob_create_tag(openid,ts)
-            msg = '您的标签名称小的已经收到，并创建了分组~~~~'
+                msg = 'Oslo还在建设中~~~'
+        elif MsgType == 'event':
+            msg = '欢迎关注Oslo测试号,目前还在建设中~~~~'
         else:
             msg = 'Oslo还在建设中~~~'
-    elif MsgType == 'event':
-        msg = '欢迎关注Oslo测试号,目前还在建设中~~~~'
-    else:
-        msg = 'Oslo还在建设中~~~'
-    return sendTxtMsg(FromUserName,ToUserName,msg)
-
+        return sendTxtMsg(FromUserName,ToUserName,msg)
+    except Exception, err:
+        logging.error(err)
+        logging.error(traceback.format_exc())
+        return sendTxtMsg(FromUserName,ToUserName,1)
 ## 转化格式
 def sendTxtMsg(FromUserName,ToUserName,Content):
     reply_xml = """<xml>
