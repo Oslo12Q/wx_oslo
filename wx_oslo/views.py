@@ -57,7 +57,7 @@ def parseTxtMsg(request):
     CreateTime =xml.find('CreateTime').text
     MsgType = xml.find('MsgType').text
     openid = request.GET.get('openid') # 获取 openid
-
+    print '57774444444444444444'
     if MsgType == 'text':
         Content = xml.find('Content').text
         print Content
