@@ -14,3 +14,14 @@
 export AppID= && export AppSecret=
 ## 启动
 python manage.py runserver 0.0.0.0:80
+
+# ubuntu编码问题
+## 安装 sudo apt-get -y install language-pack-zh-hans
+vim /var/lib/locales/supported.d/local
+> 加入：en_US.UTF-8 UTF-8
+vim /etc/default/locale
+> 加入： LANG="zh_CN.UTF-8"
+        LANGUAGE="zh_CN:zh"
+        LC_ALL="zh_CN.UTF-8"
+>终端输入 dpkg-reconfigure locales
+> locale

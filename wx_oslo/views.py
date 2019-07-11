@@ -53,7 +53,6 @@ import traceback
 def parseTxtMsg(request):
     try:
         xmlstr = smart_str(request.body)
-        print xmlstr
         xml =ElementTree.fromstring(xmlstr)
         ToUserName = xml.find('ToUserName').text
         FromUserName = xml.find('FromUserName').text
@@ -63,7 +62,7 @@ def parseTxtMsg(request):
 
         if MsgType == 'text':
             Content = xml.find('Content').text
-            print (Content.decode(errors='ignore'))
+            print (Content)
             dic = {u'平顶山',u'朝阳',u'海淀'}
             if Content in dic:
                 ts = get_tags(Content)
