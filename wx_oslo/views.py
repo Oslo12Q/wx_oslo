@@ -59,11 +59,10 @@ def parseTxtMsg(request):
         CreateTime =xml.find('CreateTime').text
         MsgType = xml.find('MsgType').text
         openid = request.GET.get('openid') # 获取 openid
-        print '57774444444444444444'
+
         if MsgType == 'text':
-            print '44444444444444444444444'
             Content = xml.find('Content').text
-            print u(Content)
+            print (Content)
             dic = {u'平顶山',u'朝阳',u'海淀'}
             if Content in dic:
                 ts = get_tags(Content)
