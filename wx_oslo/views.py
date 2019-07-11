@@ -55,6 +55,8 @@ def parseTxtMsg(request):
         xmlstr = smart_str(request.body)
         print xmlstr
         xml =ElementTree.fromstring(xmlstr)
+        import pdb
+        pdb.set_trace()
         ToUserName = xml.find('ToUserName').text
         FromUserName = xml.find('FromUserName').text
         CreateTime =xml.find('CreateTime').text
