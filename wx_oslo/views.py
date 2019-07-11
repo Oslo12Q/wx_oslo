@@ -63,7 +63,7 @@ def parseTxtMsg(request):
         if MsgType == 'text':
             print '44444444444444444444444'
             Content = xml.find('Content').text
-            print Content
+            print unicode(Content)
             dic = {u'平顶山',u'朝阳',u'海淀'}
             if Content in dic:
                 ts = get_tags(Content)
